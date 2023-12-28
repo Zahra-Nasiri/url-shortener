@@ -36,11 +36,7 @@ This web application allows users to shorten long URLs into more manageable shor
     ```bash
     pip install -r requirements.txt
     ```
-4. Run migrations:
-    ```bash
-    python manage.py migrate
-    ```
-5. Start the development server:
+4. Start the development server:
     ```bash
     python manage.py runserver
     ```
