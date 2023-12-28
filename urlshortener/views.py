@@ -7,6 +7,20 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+
+def generate_unique_code():
+    """
+    Generate a unique random code that does not exist in the cache.
+
+    Returns:
+    - str: A unique random code.
+    """
+    while True:
+        random_code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(4))
+        if not cache.get(random_code):
+            return random_code
+
+
 class ShortenURLView(APIView):
     """
     API endpoint for shortening URLs.
@@ -25,7 +39,7 @@ class ShortenURLView(APIView):
         if not original_url:
             return Response({'error': 'original_url is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        random_code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(4))
+        random_code = generate_unique_code()
         base_url = settings.BASE_URL
 
         # Set short URL in Redis with a TTL of 2 days (172800 seconds)
